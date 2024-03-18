@@ -61,7 +61,8 @@ router.post('/forgot',async (req,res)=>{
 
         if(user) {
             const token=await jwt.sign({id:user._id},ACCESS_KEY,{expiresIn:"30m"})
-            sendVerfication(email,user._id,token);
+           await sendVerfication(email,user._id,token);
+            return res.status(200).json({"msg":"email sent succefully"})
         }
     }
     catch(err){
