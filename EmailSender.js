@@ -1,7 +1,7 @@
 var nodemailer = require('nodemailer');
 require('dotenv').config();
 
-function sendVerification(email,id,token)
+function sendVerification(email,url,sub)
 {
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -14,13 +14,14 @@ var transporter = nodemailer.createTransport({
 var mailOptions = {
   from: process.env.GMAIL_USER,
   to: email,
-  subject: 'RESET YOUR PASSWORD',
-  text: `http://localhost:3000/react_to_do_app/reset/${id}/${token}`
+  subject: sub,
+  text: url
 };
 
 transporter.sendMail(mailOptions, function(error, info){
   if (error) {
     console.log(error);
+    return res.status(400).json({"msg":"email not vaild"})
   } else {
     console.log('Email sent: ' + info.response);
   }
