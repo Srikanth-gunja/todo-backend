@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const UserModel = require("../UserModel");
-const bcrypt = require("bcrypt");
+//const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 var nodemailer = require('nodemailer');
@@ -17,13 +17,13 @@ router.post("/register", async (req, res) => {
     try{
         if(await UserModel.findOne({username})) return res.status(400).json({"msg":"username already taken"});
         if(await UserModel.findOne({email})) return res.status(400).json({"msg":"email already taken"});
-        const h_password=await bcrypt.hash(password,10);
+       // const h_password=await bcrypt.hash(password,10);
        
         await sendVerfication(email,'thanks for registering','singup succesfull')
         const new_user=new UserModel({
             username,
             email,
-            password:h_password
+            password
         })
         await new_user.save();
         console.log(`creating new user ${timeAndDate}`)
@@ -42,8 +42,8 @@ router.post("/login", async (req, res) => {
         //const h_password=await bcrypt.hash(password,10);
         const user=await UserModel.findOne({email});
         if(!user) return res.status(400).json({"msg":"user not found"})
-        const h_password=await bcrypt.hash(password,10);
-        if(!(user.password===h_password)) return res.status(400).json({"msg":"password incorrect"})
+      //  const h_password=await bcrypt.hash(password,10);
+        if(!(user.password===password)) return res.status(400).json({"msg":"password incorrect"})
 
          const token=await jwt.sign({id : user._id},ACCESS_KEY)
 
@@ -79,7 +79,7 @@ router.post('/reset-password/:id/:token', async (req, res) => {
     try {
         const { id, token } = req.params;
         const { password } = req.body;
-        const h_password=await bcrypt.hash(password,10)
+       // const h_password=await bcrypt.hash(password,10)
         try {
             const val = jwt.verify(token, ACCESS_KEY);
             // Token is valid
@@ -87,7 +87,7 @@ router.post('/reset-password/:id/:token', async (req, res) => {
             if (!user) return res.status(400).json({"msg": "invalid user"});
             
             // Update password
-            user.password = h_password;
+            user.password = password;
             await user.save();
             return res.status(200).json({"msg": "reset successful"});
         } catch (error) {
