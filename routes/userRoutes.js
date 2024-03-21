@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
         if(await UserModel.findOne({email})) return res.status(400).json({"msg":"email already taken"});
        // const h_password=await bcrypt.hash(password,10);
        
-        await sendVerfication(email,'thanks for registering','singup succesfull')
+       // await sendVerfication(email,'thanks for registering','singup succesfull')
         const new_user=new UserModel({
             username,
             email,

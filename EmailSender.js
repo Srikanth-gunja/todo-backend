@@ -15,7 +15,21 @@ var mailOptions = {
   from: process.env.GMAIL_USER,
   to: email,
   subject: sub,
-  text: url
+  html:`
+  <p>Click the button below to Reset password:</p>
+  <a href="${url}">
+      <button style="background-color: #4CAF50; /* Green */
+                      border: none;
+                      color: white;
+                      padding: 15px 32px;
+                      text-align: center;
+                      text-decoration: none;
+                      display: inline-block;
+                      font-size: 16px;">
+          Verify Email
+      </button>
+  </a>
+`
 };
 
 transporter.sendMail(mailOptions, function(error, info){
