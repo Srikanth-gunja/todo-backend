@@ -38,7 +38,7 @@ router.delete("/:id", middleware, async (req, res) => {
     try {
         const { id } = req.params;
         const todoId = id.toString();
-        const userId = req.data.id; // Assuming req.data.id holds the user ID
+        const userId = req.data.id; 
 
        
         const user = await UserModel.findById(userId);
