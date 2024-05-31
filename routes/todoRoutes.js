@@ -4,7 +4,7 @@ const UserModel = require("../UserModel");
 const middleware = require("../middleware/authMiddleware");
 require("dotenv").config();
 router.post("/", middleware, async (req, res) => {
-    // Todo creation route logic
+   
     const {text}=req.body;
     try{
         const data=req.data.id;
@@ -20,7 +20,7 @@ router.post("/", middleware, async (req, res) => {
 });
 
 router.get("/", middleware, async (req, res) => {
-    // Todo retrieval route logic
+   
     const {text}=req.body;
     try{
         const data=req.data.id;
@@ -34,25 +34,25 @@ router.get("/", middleware, async (req, res) => {
 });
 
 router.delete("/:id", middleware, async (req, res) => {
-    // Todo deletion route logic
+   
     try {
         const { id } = req.params;
         const todoId = id.toString();
-        const userId = req.data.id; // Assuming req.data.id holds the user ID
+        const userId = req.data.id; 
 
-        // Find the user by ID
+       
         const user = await UserModel.findById(userId);
         if (!user) {
             return res.status(404).json({ "msg": "User not found" });
         }
 
-        // Check if the todo exists in the user's posts array
+       
         const todoIndex = user.posts.findIndex(post => post._id.toString() === todoId);
         if (todoIndex === -1) {
             return res.status(404).json({ "msg": "Todo not found" });
         }
 
-        // Remove the todo from the posts array
+     
         user.posts.splice(todoIndex, 1);
         await user.save();
 
