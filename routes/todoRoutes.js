@@ -62,5 +62,35 @@ router.delete("/:id", middleware, async (req, res) => {
         return res.status(500).json({ "msg": "Error occurred at server" });
     }
 });
+router.put("/:id", middleware, async (req, res) => {
+    // Todo update route logic
+    try {
+        const { id } = req.params;
+        const { text } = req.body;
+        const todoId = id.toString();
+        const userId = req.data.id; // Assuming req.data.id holds the user ID
+
+        // Find the user by ID
+        const user = await UserModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({ "msg": "User not found" });
+        }
+
+        // Check if the todo exists in the user's posts array
+        const todo = user.posts.find(post => post._id.toString() === todoId);
+        if (!todo) {
+            return res.status(404).json({ "msg": "Todo not found" });
+        }
+
+        // Update the text of the found todo item
+        todo.text = text;
+        await user.save();
+
+        return res.status(200).json({ "msg": "Todo updated successfully" });
+    } catch (err) {
+        console.error("Error occurred while updating todo:", err);
+        return res.status(500).json({ "msg": "Error occurred at server" });
+    }
+});
 
 module.exports = router;

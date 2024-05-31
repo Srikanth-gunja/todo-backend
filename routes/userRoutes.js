@@ -51,7 +51,8 @@ router.post("/login", async (req, res) => {
 }
     catch(err){
         
-        console.log(`error ocured while creating new user ${timeAndDate}`);
+        console.log(`error ocured while creating login user ${timeAndDate}`);
+        console.log(err);
         return res.status(400).json({"msg":"error ocuured at server"})
     }
 });

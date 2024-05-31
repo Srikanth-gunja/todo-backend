@@ -13,22 +13,6 @@ app.use(cors());
 const PORT=process.env.PORT || 9000;
 
 db_connect();
-/*
-const test="srikanthgunja25@gmail.com";
-verifier.verify(test,(err,data)=>{
-	if(err){
-		console.log("error occured");
-	}
-	else{
-		if(data.format_valid&& data.mx_found &&data.smtp_check){
-			console.log("vaild email");
-		}
-		else{
-			console.log("error insside")
-		}
-	}
-});
-*/
 app.use("/api/user", userRoutes);
 app.use("/api/todo", todoRoutes);
 
